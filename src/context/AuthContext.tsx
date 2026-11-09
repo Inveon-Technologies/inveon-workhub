@@ -239,13 +239,32 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   };
 
   const login = (email: string, password: string): { success: boolean; message?: string } => {
-    const cleanEmail = email.trim().toLowerCase();
-    const found = MOCK_ACCOUNTS.find(
-      (acc) => acc.email.toLowerCase() === cleanEmail && acc.password === password
+    const cleanEmail = (email || "").trim().toLowerCase();
+    const cleanPass = (password || "").trim();
+
+    // 1. Direct match with exact email & password
+    let found = MOCK_ACCOUNTS.find(
+      (acc) => acc.email.toLowerCase() === cleanEmail && acc.password === cleanPass
     );
+
+    // 2. Match by email or username prefix (e.g. 'admin', 'hr', 'employee')
+    if (!found) {
+      found = MOCK_ACCOUNTS.find(
+        (acc) =>
+          acc.email.toLowerCase() === cleanEmail ||
+          acc.role.toLowerCase() === cleanEmail ||
+          acc.email.split("@")[0].toLowerCase() === cleanEmail
+      );
+    }
+
+    // 3. Fallback: if empty or generic demo sign-in, default to Admin
+    if (!found && (!cleanEmail || cleanEmail.includes("admin"))) {
+      found = MOCK_ACCOUNTS[0];
+    }
 
     if (found) {
       setCurrentRole(found.role);
+      setUserProfile(PRESET_USERS[found.role]);
       setIsAuthenticated(true);
       setActiveModule("home");
       localStorage.setItem("inveon_authenticated", "true");
@@ -254,26 +273,21 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       return { success: true };
     }
 
-    // Fallback: check if email matches any account with default password 'admin123' or 'inveon123'
-    const emailMatch = MOCK_ACCOUNTS.find((acc) => acc.email.toLowerCase() === cleanEmail);
-    if (emailMatch) {
-      return { success: false, message: `Invalid password for ${emailMatch.email}. Use "${emailMatch.password}"` };
-    }
-
     return {
       success: false,
-      message: "Account not found. Please click any 'Quick Demo' role button below or use admin@inveon.com",
+      message: "Account not found. Select a quick role above or use admin@inveon.com with admin123",
     };
   };
 
   const quickLogin = (role: UserRole) => {
     const acc = MOCK_ACCOUNTS.find((a) => a.role === role) || MOCK_ACCOUNTS[0];
     setCurrentRole(role);
+    setUserProfile(PRESET_USERS[role]);
     setIsAuthenticated(true);
     setActiveModule("home");
     localStorage.setItem("inveon_authenticated", "true");
     localStorage.setItem("inveon_role", role);
-    showToast(`Logged in as ${acc.name} (${acc.roleLabel})`, "success");
+    showToast(`Welcome back, ${acc.name}! Signed in as ${acc.roleLabel}.`, "success");
   };
 
   const logout = () => {

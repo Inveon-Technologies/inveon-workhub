@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { MailCheck, ArrowRight, RefreshCw } from "lucide-react";
-import masterLogo from "../../assets/logo/Master Brand Logo.png";
+import { InveonLogo } from "../../components/common/InveonLogo";
 
 export const EmailVerification: React.FC<{ onNavigate?: (page: string) => void }> = ({ onNavigate }) => {
   const [code, setCode] = useState(["", "", "", "", "", ""]);
@@ -21,7 +21,7 @@ export const EmailVerification: React.FC<{ onNavigate?: (page: string) => void }
     <div className="min-h-screen w-full bg-[#F2F1ED] flex items-center justify-center p-4 font-sans">
       <div className="w-full max-w-md bg-white rounded-3xl p-8 border border-[#E3E8EE] shadow-xl text-center">
         <div className="flex justify-center mb-6">
-          <img src={masterLogo} alt="INVEON WORKHUB" className="h-8 w-auto object-contain" />
+          <InveonLogo size="md" />
         </div>
 
         <div className="w-14 h-14 rounded-2xl bg-[#EEF3FF] text-[#315BDB] flex items-center justify-center mx-auto mb-4 border border-[#D0E0FF]">

@@ -1,6 +1,6 @@
 import React from "react";
 import { Building2, ArrowRight, ShieldCheck, Check } from "lucide-react";
-import masterLogo from "../../assets/logo/Master Brand Logo.png";
+import { InveonLogo } from "../../components/common/InveonLogo";
 
 export const ChooseOrganization: React.FC<{ onSelect?: (orgId: string) => void }> = ({ onSelect }) => {
   const orgs = [
@@ -28,7 +28,7 @@ export const ChooseOrganization: React.FC<{ onSelect?: (orgId: string) => void }
     <div className="min-h-screen w-full bg-[#F2F1ED] flex items-center justify-center p-4 font-sans">
       <div className="w-full max-w-xl bg-white rounded-3xl p-8 lg:p-10 border border-[#E3E8EE] shadow-xl">
         <div className="flex items-center gap-2 mb-8">
-          <img src={masterLogo} alt="INVEON WORKHUB" className="h-8 w-auto object-contain" />
+          <InveonLogo size="md" />
           <div className="h-4 w-[1px] bg-[#D8D9D6] mx-1" />
           <span className="text-xs font-semibold text-[#858B93]">By Inveon Technologies</span>
         </div>

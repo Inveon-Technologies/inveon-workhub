@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Lock, Eye, EyeOff, ArrowRight, CheckCircle2 } from "lucide-react";
-import masterLogo from "../../assets/logo/Master Brand Logo.png";
+import { InveonLogo } from "../../components/common/InveonLogo";
 
 export const ResetPassword: React.FC<{ onNavigate?: (page: string) => void }> = ({ onNavigate }) => {
   const [newPassword, setNewPassword] = useState("");
@@ -19,7 +19,7 @@ export const ResetPassword: React.FC<{ onNavigate?: (page: string) => void }> = 
     <div className="min-h-screen w-full bg-[#F2F1ED] flex items-center justify-center p-4 font-sans">
       <div className="w-full max-w-md bg-white rounded-3xl p-8 border border-[#E3E8EE] shadow-xl">
         <div className="flex items-center gap-2 mb-8">
-          <img src={masterLogo} alt="INVEON WORKHUB" className="h-8 w-auto object-contain" />
+          <InveonLogo size="md" />
         </div>
 
         {completed ? (

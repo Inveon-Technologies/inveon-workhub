@@ -70,25 +70,23 @@ export const TeamPresenceStrip: React.FC = () => {
           {memberAvatars.map((m, idx) => (
             <img
               key={idx}
-              className="inline-block h-7 w-7 rounded-full ring-2 ring-white object-cover"
               src={m.src}
               alt={m.name}
-              title={`${m.name} • ${m.role}`}
+              title={`${m.name} (${m.role})`}
+              className="inline-block h-7 w-7 rounded-full ring-2 ring-white object-cover"
             />
           ))}
-          {isMainAdmin && (
-            <div className="inline-flex items-center justify-center h-7 w-7 rounded-full bg-[#F2F1ED] text-[10px] font-bold text-[#191C20] ring-2 ring-white">
-              +4
-            </div>
-          )}
+          <div className="w-7 h-7 rounded-full bg-[#F2F1ED] border-2 border-white flex items-center justify-center text-[10px] font-bold text-[#858B93]">
+            {isMainAdmin ? "+344" : "+0"}
+          </div>
         </div>
 
         <button
           onClick={() => setActiveModule("people")}
-          className="flex items-center gap-1 px-3 py-1 rounded-lg text-xs font-bold text-[#191C20] bg-[#F2F1ED] hover:bg-[#EAE8E2] border border-[#E2E0D8] transition-colors cursor-pointer"
+          className="flex items-center gap-1 px-3 py-1.5 rounded-xl bg-[#F2F1ED] hover:bg-[#EEF3FF] hover:text-[#315BDB] text-xs font-bold text-[#191C20] transition-colors cursor-pointer"
         >
-          <span>View Team</span>
-          <ArrowRight size={13} className="text-[#858B93]" />
+          <span>View All</span>
+          <ArrowRight size={13} />
         </button>
       </div>
     </div>

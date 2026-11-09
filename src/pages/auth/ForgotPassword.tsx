@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Mail, ArrowRight, ArrowLeft, CheckCircle2 } from "lucide-react";
-import masterLogo from "../../assets/logo/Master Brand Logo.png";
+import { InveonLogo } from "../../components/common/InveonLogo";
 import authArt from "../../assets/images/auth-architectural-art.png";
 
 export const ForgotPassword: React.FC<{ onNavigate?: (page: string) => void }> = ({ onNavigate }) => {
@@ -18,7 +18,7 @@ export const ForgotPassword: React.FC<{ onNavigate?: (page: string) => void }> =
         <div className="lg:col-span-7 p-8 lg:p-12 flex flex-col justify-between">
           <div>
             <div className="flex items-center gap-2 mb-8">
-              <img src={masterLogo} alt="INVEON WORKHUB" className="h-8 w-auto object-contain" />
+              <InveonLogo size="md" />
               <div className="h-4 w-[1px] bg-[#D8D9D6] mx-1" />
               <span className="text-xs font-semibold text-[#858B93]">By Inveon Technologies</span>
             </div>
