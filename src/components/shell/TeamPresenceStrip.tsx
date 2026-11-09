@@ -1,9 +1,9 @@
-﻿import React from "react";
+import React from "react";
 import { Users, ArrowRight } from "lucide-react";
 import { useAuth } from "../../context/AuthContext";
 
 export const TeamPresenceStrip: React.FC = () => {
-  const { user } = useAuth();
+  const { user, setActiveModule } = useAuth();
 
   const isMainAdmin = user.role === "admin";
 
@@ -26,7 +26,7 @@ export const TeamPresenceStrip: React.FC = () => {
             <span className="text-[11px] font-extrabold uppercase tracking-wider text-[#191C20]">
               {isMainAdmin ? "ORGANISATION PRESENCE" : "MY TEAM"}
             </span>
-            <span className="text-[10px] text-[#858B93] font-bold">·</span>
+            <span className="text-[10px] text-[#858B93] font-bold">•</span>
             <span className="text-[11px] font-bold text-[#858B93]">
               {isMainAdmin ? "348 MEMBERS" : "4 MEMBERS"}
             </span>
@@ -73,7 +73,7 @@ export const TeamPresenceStrip: React.FC = () => {
               className="inline-block h-7 w-7 rounded-full ring-2 ring-white object-cover"
               src={m.src}
               alt={m.name}
-              title={`${m.name} · ${m.role}`}
+              title={`${m.name} • ${m.role}`}
             />
           ))}
           {isMainAdmin && (
@@ -83,7 +83,10 @@ export const TeamPresenceStrip: React.FC = () => {
           )}
         </div>
 
-        <button className="flex items-center gap-1 px-3 py-1 rounded-lg text-xs font-bold text-[#191C20] bg-[#F2F1ED] hover:bg-[#EAE8E2] border border-[#E2E0D8] transition-colors">
+        <button
+          onClick={() => setActiveModule("people")}
+          className="flex items-center gap-1 px-3 py-1 rounded-lg text-xs font-bold text-[#191C20] bg-[#F2F1ED] hover:bg-[#EAE8E2] border border-[#E2E0D8] transition-colors cursor-pointer"
+        >
           <span>View Team</span>
           <ArrowRight size={13} className="text-[#858B93]" />
         </button>

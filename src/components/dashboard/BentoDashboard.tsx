@@ -16,8 +16,11 @@ import {
   BookOpen,
 } from "lucide-react";
 import orgBuilding from "../../assets/images/org-building-thumbnail.png";
+import { useAuth } from "../../context/AuthContext";
 
 export const BentoDashboard: React.FC = () => {
+  const { setActiveModule, showToast } = useAuth();
+
   // State for interactive checkboxes
   const [tasks, setTasks] = useState([
     { id: 1, title: "Review UI design and share feedback", priority: "High", due: "Today", completed: false },
@@ -27,7 +30,16 @@ export const BentoDashboard: React.FC = () => {
   ]);
 
   const toggleTask = (id: number) => {
-    setTasks(tasks.map((t) => (t.id === id ? { ...t, completed: !t.completed } : t)));
+    setTasks(
+      tasks.map((t) => {
+        if (t.id === id) {
+          const updated = !t.completed;
+          showToast(updated ? `Marked "${t.title}" as completed!` : `Reopened "${t.title}".`, "info");
+          return { ...t, completed: updated };
+        }
+        return t;
+      })
+    );
   };
 
   return (
@@ -93,7 +105,10 @@ export const BentoDashboard: React.FC = () => {
             </div>
           </div>
 
-          <button className="mt-5 w-full py-2.5 px-4 rounded-xl bg-[#315BDB] hover:bg-[#244BB5] text-white text-xs font-bold flex items-center justify-center gap-2 transition-colors shadow-sm shadow-[#315BDB]/25">
+          <button
+            onClick={() => setActiveModule("work")}
+            className="mt-5 w-full py-2.5 px-4 rounded-xl bg-[#315BDB] hover:bg-[#244BB5] text-white text-xs font-bold flex items-center justify-center gap-2 transition-colors shadow-sm shadow-[#315BDB]/25 cursor-pointer"
+          >
             <span>Open My Workspace</span>
             <ArrowRight size={14} />
           </button>
@@ -120,7 +135,7 @@ export const BentoDashboard: React.FC = () => {
               ].map((item, idx) => {
                 const Icon = item.icon;
                 return (
-                  <div key={idx} className="relative flex items-start justify-between group">
+                  <div key={idx} className="relative flex items-start justify-between group cursor-pointer" onClick={() => setActiveModule("calendar")}>
                     {/* Node Dot */}
                     <div className="absolute -left-[13px] top-1.5 w-2.5 h-2.5 rounded-full bg-[#315BDB] ring-4 ring-white" />
 
@@ -145,13 +160,13 @@ export const BentoDashboard: React.FC = () => {
             </div>
           </div>
 
-          <a
-            href="#calendar"
-            className="mt-5 w-full py-2 text-center text-xs font-bold text-[#315BDB] hover:text-[#244BB5] hover:bg-[#EEF3FF] rounded-xl transition-colors flex items-center justify-center gap-1.5"
+          <button
+            onClick={() => setActiveModule("calendar")}
+            className="mt-5 w-full py-2 text-center text-xs font-bold text-[#315BDB] hover:text-[#244BB5] hover:bg-[#EEF3FF] rounded-xl transition-colors flex items-center justify-center gap-1.5 cursor-pointer"
           >
             <span>View Full Calendar</span>
             <ArrowRight size={13} />
-          </a>
+          </button>
         </div>
 
         {/* Card 3: Team Work & Projects */}
@@ -164,10 +179,13 @@ export const BentoDashboard: React.FC = () => {
                 </div>
                 <h3 className="text-base font-extrabold text-[#191C20]">Team Work & Projects</h3>
               </div>
-              <a href="#projects" className="text-xs font-bold text-[#315BDB] hover:underline flex items-center gap-1">
+              <button
+                onClick={() => setActiveModule("work")}
+                className="text-xs font-bold text-[#315BDB] hover:underline flex items-center gap-1 cursor-pointer"
+              >
                 <span>View All Projects</span>
                 <ArrowRight size={12} />
-              </a>
+              </button>
             </div>
             <p className="text-xs text-[#858B93] mb-4 font-medium">Active projects and progress across your team.</p>
 
@@ -195,14 +213,18 @@ export const BentoDashboard: React.FC = () => {
               ].map((proj, idx) => {
                 const Icon = proj.icon;
                 return (
-                  <div key={idx} className="space-y-1.5">
+                  <div
+                    key={idx}
+                    onClick={() => setActiveModule("work")}
+                    className="space-y-1.5 cursor-pointer group"
+                  >
                     <div className="flex items-start justify-between gap-2">
                       <div className="flex items-center gap-2.5">
-                        <div className="w-7 h-7 rounded-lg bg-[#EEF3FF] flex items-center justify-center text-[#315BDB] shrink-0">
+                        <div className="w-7 h-7 rounded-lg bg-[#EEF3FF] flex items-center justify-center text-[#315BDB] shrink-0 group-hover:bg-[#315BDB] group-hover:text-white transition-colors">
                           <Icon size={14} />
                         </div>
                         <div>
-                          <h4 className="text-xs font-bold text-[#191C20] leading-tight">{proj.title}</h4>
+                          <h4 className="text-xs font-bold text-[#191C20] leading-tight group-hover:text-[#315BDB] transition-colors">{proj.title}</h4>
                           <p className="text-[11px] text-[#858B93] font-medium leading-tight">{proj.sub}</p>
                         </div>
                       </div>
@@ -246,7 +268,10 @@ export const BentoDashboard: React.FC = () => {
             <p className="text-xs text-[#858B93] mb-4 font-medium">Actions and approvals requiring your review.</p>
 
             {/* Horizontal Metric Strip */}
-            <div className="flex items-center justify-between p-3.5 rounded-2xl bg-[#FAFAFA] border border-[#EBEBEB] hover:border-[#D8D9D6] transition-colors mt-2">
+            <div
+              onClick={() => setActiveModule("people")}
+              className="flex items-center justify-between p-3.5 rounded-2xl bg-[#FAFAFA] border border-[#EBEBEB] hover:border-[#315BDB] hover:bg-white transition-all cursor-pointer group mt-2"
+            >
               <div className="grid grid-cols-4 gap-2 w-full divide-x divide-[#EBEBEB]">
                 {/* 2 Leave Requests */}
                 <div className="flex flex-col items-center justify-center text-center px-1">
@@ -285,7 +310,7 @@ export const BentoDashboard: React.FC = () => {
                 </div>
               </div>
 
-              <ChevronRight size={18} className="text-[#858B93] ml-2 shrink-0" />
+              <ChevronRight size={18} className="text-[#858B93] group-hover:text-[#315BDB] ml-2 shrink-0 transition-transform group-hover:translate-x-0.5" />
             </div>
           </div>
         </div>
@@ -299,10 +324,13 @@ export const BentoDashboard: React.FC = () => {
               </div>
               <h3 className="text-base font-extrabold text-[#191C20]">Organisation Updates</h3>
             </div>
-            <a href="#updates" className="text-xs font-bold text-[#315BDB] hover:underline flex items-center gap-1">
+            <button
+              onClick={() => setActiveModule("chat")}
+              className="text-xs font-bold text-[#315BDB] hover:underline flex items-center gap-1 cursor-pointer"
+            >
               <span>View All</span>
               <ArrowRight size={12} />
-            </a>
+            </button>
           </div>
           <p className="text-xs text-[#858B93] mb-4 font-medium">Important announcements and recent updates.</p>
 
@@ -319,9 +347,12 @@ export const BentoDashboard: React.FC = () => {
             {/* Right: Announcements */}
             <div className="flex-1 space-y-2.5 justify-center flex flex-col">
               {/* Item 1 */}
-              <div className="flex items-start justify-between gap-3">
+              <div
+                onClick={() => setActiveModule("settings")}
+                className="flex items-start justify-between gap-3 cursor-pointer group"
+              >
                 <div>
-                  <h4 className="text-xs font-bold text-[#191C20] hover:text-[#315BDB] cursor-pointer transition-colors leading-snug">
+                  <h4 className="text-xs font-bold text-[#191C20] group-hover:text-[#315BDB] transition-colors leading-snug">
                     New Remote Work Policy is Live
                   </h4>
                   <p className="text-[11px] text-[#858B93] font-medium leading-snug">
@@ -332,13 +363,16 @@ export const BentoDashboard: React.FC = () => {
               </div>
 
               {/* Item 2 */}
-              <div className="flex items-start justify-between gap-3 pt-2 border-t border-[#F2F1ED]">
+              <div
+                onClick={() => setActiveModule("people")}
+                className="flex items-start justify-between gap-3 pt-2 border-t border-[#F2F1ED] cursor-pointer group"
+              >
                 <div className="flex items-start gap-2.5">
                   <div className="w-6 h-6 rounded-lg bg-[#EEF3FF] flex items-center justify-center text-[#315BDB] shrink-0 mt-0.5">
                     <Users size={13} />
                   </div>
                   <div>
-                    <h4 className="text-xs font-bold text-[#191C20] hover:text-[#315BDB] cursor-pointer transition-colors leading-snug">
+                    <h4 className="text-xs font-bold text-[#191C20] group-hover:text-[#315BDB] transition-colors leading-snug">
                       Welcome to Our New Joiners!
                     </h4>
                     <p className="text-[11px] text-[#858B93] font-medium leading-snug">

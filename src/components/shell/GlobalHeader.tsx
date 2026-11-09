@@ -1,11 +1,21 @@
-﻿import React, { useState, useRef, useEffect } from "react";
-import { Search, Bell, Grid, ChevronDown, Check, UserCircle, LogOut, Settings, ShieldCheck } from "lucide-react";
+import React, { useState, useRef, useEffect } from "react";
+import { Search, Bell, Grid, ChevronDown, UserCircle, LogOut, Settings, Building2 } from "lucide-react";
 import { useAuth } from "../../context/AuthContext";
-import { UserRole } from "../../types";
-import masterLogo from "../../assets/logo/Master Brand Logo.png";
+import { InveonLogo } from "../common/InveonLogo";
 
 export const GlobalHeader: React.FC = () => {
-  const { user, setRole } = useAuth();
+  const {
+    user,
+    logout,
+    setActiveModule,
+    setSearchOpen,
+    notificationsOpen,
+    setNotificationsOpen,
+    appSwitcherOpen,
+    setAppSwitcherOpen,
+    setProfileModalOpen,
+  } = useAuth();
+
   const [profileOpen, setProfileOpen] = useState(false);
   const [orgOpen, setOrgOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -21,31 +31,20 @@ export const GlobalHeader: React.FC = () => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  const rolesList: { role: UserRole; label: string; desc: string }[] = [
-    { role: "admin", label: "Organisation Main Admin", desc: "Master OS & Organisation Workspace" },
-    { role: "employee", label: "Employee Workspace", desc: "My Work, Attendance, Leave & Projects" },
-    { role: "intern", label: "Intern Journey", desc: "Learning track, submissions, mentor card" },
-    { role: "hr", label: "HR Admin", desc: "People ops, attendance donut, hiring triage" },
-    { role: "manager", label: "Manager Console", desc: "Team workload, sprint reviews & approvals" },
-    { role: "recruiter", label: "Recruiter Dashboard", desc: "ATS pipeline, openings, interview calendar" },
-    { role: "super_admin", label: "Platform Super Admin", desc: "SaaS multi-tenant control" },
-  ];
-
   return (
     <header className="sticky top-0 z-40 w-full bg-white/95 backdrop-blur-md border-b border-[#E3E8EE] px-4 lg:px-6 h-16 flex items-center justify-between transition-all">
-      {/* Left: Brand Identity */}
+      {/* Left: Brand Identity (Transparent Logo without Patch) */}
       <div className="flex items-center gap-3 lg:gap-4">
-        <a href="/" className="flex items-center gap-2 group">
-          <img
-            src={masterLogo}
-            alt="INVEON WORKHUB"
-            className="h-8 lg:h-9 w-auto object-contain transition-transform group-hover:scale-[1.02]"
-          />
-        </a>
+        <button
+          onClick={() => setActiveModule("home")}
+          className="flex items-center gap-2 group text-left cursor-pointer"
+        >
+          <InveonLogo size="md" />
+        </button>
 
         <div className="hidden sm:block h-5 w-[1px] bg-[#D8D9D6]" />
 
-        <span className="hidden sm:inline-block text-xs font-medium text-[#858B93] tracking-tight">
+        <span className="hidden sm:inline-block text-xs font-semibold text-[#858B93] tracking-tight">
           By Inveon Technologies
         </span>
 
@@ -53,41 +52,64 @@ export const GlobalHeader: React.FC = () => {
         <div className="relative hidden md:block">
           <button
             onClick={() => setOrgOpen(!orgOpen)}
-            className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-[#F2F1ED] hover:bg-[#EAE8E2] text-xs font-semibold text-[#191C20] transition-colors border border-[#E2E0D8]"
+            className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-[#F2F1ED] hover:bg-[#EAE8E2] text-xs font-semibold text-[#191C20] transition-colors border border-[#E2E0D8] cursor-pointer"
           >
-            <span className="w-5 h-5 rounded bg-[#315BDB] text-white flex items-center justify-center text-[10px] font-bold">
-              YO
+            <span className="w-5 h-5 rounded-lg bg-[#315BDB] text-white flex items-center justify-center text-[10px] font-bold">
+              IT
             </span>
-            <span>Your Organisation</span>
+            <span>Inveon Technologies</span>
             <ChevronDown size={14} className="text-[#858B93]" />
           </button>
+
+          {orgOpen && (
+            <div className="absolute left-0 mt-2 w-64 bg-white rounded-2xl shadow-xl border border-[#D8D9D6] p-3 z-50 animate-in fade-in">
+              <div className="flex items-center gap-2.5 pb-2.5 border-b border-[#F2F1ED]">
+                <div className="w-8 h-8 rounded-xl bg-[#EEF3FF] text-[#315BDB] flex items-center justify-center font-bold text-xs">
+                  <Building2 size={16} />
+                </div>
+                <div>
+                  <h4 className="text-xs font-bold text-[#191C20]">Inveon Technologies</h4>
+                  <p className="text-[10px] text-[#858B93]">Enterprise Tenant • 348 Seats</p>
+                </div>
+              </div>
+              <p className="text-[11px] text-[#858B93] py-2">
+                Domain: <strong className="text-[#191C20]">inveontechnologies.in</strong>
+              </p>
+              <button
+                onClick={() => setOrgOpen(false)}
+                className="w-full py-1.5 rounded-lg bg-[#F2F1ED] hover:bg-[#EEF3FF] hover:text-[#315BDB] text-xs font-bold text-[#191C20] transition-colors"
+              >
+                Close
+              </button>
+            </div>
+          )}
         </div>
       </div>
 
       {/* Center: Global Search Bar with Ctrl + K */}
       <div className="flex-1 max-w-xl mx-4 lg:mx-8 hidden sm:block">
-        <div className="relative group">
-          <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-[#858B93] group-focus-within:text-[#315BDB] transition-colors">
-            <Search size={16} />
+        <button
+          onClick={() => setSearchOpen(true)}
+          className="w-full relative group text-left cursor-pointer"
+        >
+          <div className="w-full pl-10 pr-16 py-2 bg-[#F2F1ED]/80 hover:bg-[#F2F1ED] text-xs lg:text-sm text-[#858B93] rounded-full border border-transparent hover:border-[#D8D9D6] transition-all shadow-inner flex items-center">
+            <Search size={16} className="absolute left-3.5 text-[#858B93] group-hover:text-[#315BDB]" />
+            <span>Search people, work, projects, meetings...</span>
+            <div className="absolute right-3">
+              <kbd className="inline-flex items-center px-1.5 py-0.5 text-[10px] font-semibold text-[#858B93] bg-white border border-[#D8D9D6] rounded shadow-xs">
+                Ctrl + K
+              </kbd>
+            </div>
           </div>
-          <input
-            type="text"
-            placeholder="Search people, work, projects, meetings..."
-            className="w-full pl-10 pr-16 py-2 bg-[#F2F1ED]/80 hover:bg-[#F2F1ED] focus:bg-white text-xs lg:text-sm text-[#191C20] placeholder-[#858B93] rounded-full border border-transparent focus:border-[#315BDB] focus:outline-none transition-all shadow-inner focus:shadow-md"
-          />
-          <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
-            <kbd className="inline-flex items-center px-1.5 py-0.5 text-[10px] font-semibold text-[#858B93] bg-white border border-[#D8D9D6] rounded shadow-xs">
-              Ctrl + K
-            </kbd>
-          </div>
-        </div>
+        </button>
       </div>
 
       {/* Right: Actions & User Profile */}
       <div className="flex items-center gap-2 lg:gap-3" ref={dropdownRef}>
         {/* Notification Bell */}
         <button
-          className="relative p-2 rounded-full text-[#858B93] hover:text-[#191C20] hover:bg-[#F2F1ED] transition-colors"
+          onClick={() => setNotificationsOpen(!notificationsOpen)}
+          className="relative p-2 rounded-full text-[#858B93] hover:text-[#191C20] hover:bg-[#F2F1ED] transition-colors cursor-pointer"
           title="Notifications"
         >
           <Bell size={18} />
@@ -96,7 +118,8 @@ export const GlobalHeader: React.FC = () => {
 
         {/* App Switcher */}
         <button
-          className="p-2 rounded-full text-[#858B93] hover:text-[#191C20] hover:bg-[#F2F1ED] transition-colors"
+          onClick={() => setAppSwitcherOpen(!appSwitcherOpen)}
+          className="p-2 rounded-full text-[#858B93] hover:text-[#191C20] hover:bg-[#F2F1ED] transition-colors cursor-pointer"
           title="Apps & Modules"
         >
           <Grid size={18} />
@@ -104,11 +127,11 @@ export const GlobalHeader: React.FC = () => {
 
         <div className="h-5 w-[1px] bg-[#D8D9D6] mx-1" />
 
-        {/* User Profile Chip with Dropdown */}
+        {/* User Profile Chip with Clean Dropdown (NO Role Switcher) */}
         <div className="relative">
           <button
             onClick={() => setProfileOpen(!profileOpen)}
-            className="flex items-center gap-2.5 p-1 lg:pr-2.5 rounded-full hover:bg-[#F2F1ED] transition-all border border-transparent hover:border-[#D8D9D6]"
+            className="flex items-center gap-2.5 p-1 lg:pr-2.5 rounded-full hover:bg-[#F2F1ED] transition-all border border-transparent hover:border-[#D8D9D6] cursor-pointer"
           >
             <div className="relative">
               <img
@@ -131,72 +154,54 @@ export const GlobalHeader: React.FC = () => {
             <ChevronDown size={14} className="text-[#858B93] hidden lg:block" />
           </button>
 
-          {/* Profile & Role Switcher Dropdown */}
+          {/* Clean Profile Menu (Profile, Settings, Sign Out) */}
           {profileOpen && (
-            <div className="absolute right-0 mt-2 w-72 bg-white rounded-2xl shadow-2xl border border-[#D8D9D6] py-2 z-50 animate-in fade-in slide-in-from-top-2 duration-150">
+            <div className="absolute right-0 mt-2 w-64 bg-white rounded-2xl shadow-2xl border border-[#D8D9D6] py-2 z-50 animate-in fade-in slide-in-from-top-2 duration-150">
               <div className="px-4 py-3 border-b border-[#F2F1ED]">
-                <p className="text-xs text-[#858B93] font-medium">Signed in as</p>
-                <p className="text-sm font-bold text-[#191C20]">{user.name}</p>
-                <p className="text-xs text-[#315BDB] font-semibold">{user.email}</p>
-              </div>
-
-              {/* Instant Role Preview Switcher */}
-              <div className="px-3 py-2 border-b border-[#F2F1ED]">
-                <div className="flex items-center justify-between mb-1.5 px-1">
-                  <span className="text-[11px] font-bold text-[#858B93] uppercase tracking-wider">
-                    Switch Active View (Role)
+                <div className="flex items-center gap-2 mb-1">
+                  <span className="text-xs font-bold text-[#191C20]">{user.name}</span>
+                  <span className="px-1.5 py-0.2 rounded text-[9px] font-extrabold bg-[#EEF3FF] text-[#315BDB] uppercase">
+                    {user.role.replace("_", " ")}
                   </span>
-                  <ShieldCheck size={13} className="text-[#315BDB]" />
                 </div>
-                <div className="space-y-1">
-                  {rolesList.map((r) => {
-                    const isSelected = user.role === r.role;
-                    return (
-                      <button
-                        key={r.role}
-                        onClick={() => {
-                          setRole(r.role);
-                          setProfileOpen(false);
-                        }}
-                        className={`w-full flex items-center justify-between px-2.5 py-1.5 rounded-lg text-left transition-colors text-xs ${
-                          isSelected
-                            ? "bg-[#EEF3FF] text-[#315BDB] font-bold"
-                            : "text-[#191C20] hover:bg-[#F2F1ED] font-medium"
-                        }`}
-                      >
-                        <div>
-                          <div>{r.label}</div>
-                          <div className="text-[10px] text-[#858B93] font-normal">{r.desc}</div>
-                        </div>
-                        {isSelected && <Check size={14} className="text-[#315BDB]" />}
-                      </button>
-                    );
-                  })}
-                </div>
+                <p className="text-xs text-[#858B93] font-medium truncate">{user.email}</p>
+                <p className="text-[10px] text-[#858B93] font-mono mt-0.5">{user.employeeId}</p>
               </div>
 
               <div className="py-1">
-                <a
-                  href="#profile"
-                  className="flex items-center gap-2.5 px-4 py-2 text-xs text-[#191C20] hover:bg-[#F2F1ED] transition-colors"
+                <button
+                  onClick={() => {
+                    setProfileOpen(false);
+                    setProfileModalOpen(true);
+                  }}
+                  className="w-full flex items-center gap-2.5 px-4 py-2 text-xs text-[#191C20] hover:bg-[#F2F1ED] transition-colors text-left cursor-pointer"
                 >
                   <UserCircle size={15} className="text-[#858B93]" />
-                  <span>My Profile</span>
-                </a>
-                <a
-                  href="#settings"
-                  className="flex items-center gap-2.5 px-4 py-2 text-xs text-[#191C20] hover:bg-[#F2F1ED] transition-colors"
+                  <span>My Profile Details</span>
+                </button>
+                <button
+                  onClick={() => {
+                    setProfileOpen(false);
+                    setActiveModule("settings");
+                  }}
+                  className="w-full flex items-center gap-2.5 px-4 py-2 text-xs text-[#191C20] hover:bg-[#F2F1ED] transition-colors text-left cursor-pointer"
                 >
                   <Settings size={15} className="text-[#858B93]" />
-                  <span>Settings & Preferences</span>
-                </a>
-                <a
-                  href="#logout"
-                  className="flex items-center gap-2.5 px-4 py-2 text-xs text-[#F07838] hover:bg-[#FEF3EC] transition-colors"
+                  <span>Organisation Settings</span>
+                </button>
+              </div>
+
+              <div className="pt-1 border-t border-[#F2F1ED]">
+                <button
+                  onClick={() => {
+                    setProfileOpen(false);
+                    logout();
+                  }}
+                  className="w-full flex items-center gap-2.5 px-4 py-2 text-xs text-[#EF4444] hover:bg-[#FEF2F2] transition-colors text-left font-bold cursor-pointer"
                 >
                   <LogOut size={15} />
-                  <span>Sign out</span>
-                </a>
+                  <span>Sign out of WorkHub</span>
+                </button>
               </div>
             </div>
           )}

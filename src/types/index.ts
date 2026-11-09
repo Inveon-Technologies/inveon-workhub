@@ -1,4 +1,4 @@
-﻿export type UserRole =
+export type UserRole =
   | 'super_admin'
   | 'admin'
   | 'hr'
@@ -6,6 +6,16 @@
   | 'manager'
   | 'employee'
   | 'intern';
+
+export type ActiveModule =
+  | 'home'
+  | 'people'
+  | 'work'
+  | 'growth'
+  | 'calendar'
+  | 'chat'
+  | 'reports'
+  | 'settings';
 
 export interface UserProfile {
   id: string;
@@ -16,6 +26,9 @@ export interface UserProfile {
   department: string;
   avatarUrl?: string;
   employeeId?: string;
+  phone?: string;
+  joinDate?: string;
+  location?: string;
 }
 
 export type PresenceStatus = 'working' | 'on_break' | 'not_started' | 'on_leave';
@@ -33,9 +46,11 @@ export interface TaskItem {
   title: string;
   priority: 'High' | 'Medium' | 'Low';
   dueDate: string;
-  status: 'In Progress' | 'To Do' | 'In Review' | 'Completed' | 'Overdue';
+  status: 'To Do' | 'In Progress' | 'In Review' | 'Completed';
   project?: string;
   completed?: boolean;
+  assignee?: string;
+  assigneeAvatar?: string;
 }
 
 export interface ScheduleItem {
@@ -45,6 +60,7 @@ export interface ScheduleItem {
   location: string;
   platform?: string;
   type: 'Meeting' | 'Review' | 'Interview' | 'Deadline' | 'Leave';
+  attendees?: number;
 }
 
 export interface ProjectItem {
@@ -55,21 +71,41 @@ export interface ProjectItem {
   status: 'Active' | 'At Risk' | 'Completed';
   lead?: string;
   dueDate?: string;
+  tasksCount?: number;
 }
 
-export interface AttentionItem {
+export interface EmployeeRecord {
   id: string;
-  type: 'leave' | 'task_review' | 'attendance' | 'overdue';
-  title: string;
-  count: number;
-  icon: string;
+  name: string;
+  email: string;
+  role: string;
+  department: string;
+  status: 'Active' | 'On Leave' | 'Remote';
+  avatar: string;
+  joinDate: string;
+  location: string;
+  performanceScore?: number;
 }
 
-export interface AnnouncementItem {
+export interface ChatMessage {
+  id: string;
+  sender: string;
+  avatar: string;
+  content: string;
+  timestamp: string;
+  isMe?: boolean;
+}
+
+export interface LMSCourse {
   id: string;
   title: string;
-  summary: string;
-  date: string;
-  tag: string;
-  read: boolean;
+  category: 'Engineering' | 'Design' | 'Product' | 'Leadership' | 'Security';
+  level: 'Beginner' | 'Intermediate' | 'Advanced';
+  duration: string;
+  lessonsCount: number;
+  progress: number;
+  instructor: string;
+  thumbnail: string;
+  description: string;
+  completedLessons?: number;
 }

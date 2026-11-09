@@ -1,6 +1,8 @@
-﻿import React from "react";
+import React from "react";
 import { Users, ClipboardCheck, BookOpen, Layers, ArrowRight, LucideIcon } from "lucide-react";
 import heroBg from "../../assets/images/hero-architecture-bg.png";
+import { useAuth } from "../../context/AuthContext";
+import { ActiveModule } from "../../types";
 
 export interface PavilionTile {
   id: string;
@@ -8,10 +10,12 @@ export interface PavilionTile {
   title: string;
   subtitle: string;
   icon: LucideIcon;
-  href: string;
+  module: ActiveModule;
 }
 
 export const HeroSection: React.FC = () => {
+  const { setActiveModule } = useAuth();
+
   const pavilionTiles: PavilionTile[] = [
     {
       id: "people",
@@ -19,7 +23,7 @@ export const HeroSection: React.FC = () => {
       title: "PEOPLE",
       subtitle: "Teams and talent",
       icon: Users,
-      href: "#people",
+      module: "people",
     },
     {
       id: "work",
@@ -27,7 +31,7 @@ export const HeroSection: React.FC = () => {
       title: "WORK",
       subtitle: "Tasks and projects",
       icon: ClipboardCheck,
-      href: "#work",
+      module: "work",
     },
     {
       id: "growth",
@@ -35,7 +39,7 @@ export const HeroSection: React.FC = () => {
       title: "GROWTH",
       subtitle: "Learning and development",
       icon: BookOpen,
-      href: "#growth",
+      module: "growth",
     },
     {
       id: "operations",
@@ -43,12 +47,12 @@ export const HeroSection: React.FC = () => {
       title: "OPERATIONS",
       subtitle: "Attendance and administration",
       icon: Layers,
-      href: "#operations",
+      module: "settings",
     },
   ];
 
   return (
-    <div className="relative w-full rounded-3xl overflow-hidden shadow-sm border border-[#E3E8EE] mb-6 bg-[#FFFFFF]">
+    <div className="relative w-full rounded-3xl overflow-hidden shadow-xs border border-[#E3E8EE] mb-6 bg-[#FFFFFF]">
       {/* Background Architectural Layer */}
       <div className="absolute inset-0 z-0">
         <img
@@ -89,13 +93,13 @@ export const HeroSection: React.FC = () => {
           {pavilionTiles.map((tile) => {
             const Icon = tile.icon;
             return (
-              <a
+              <button
                 key={tile.id}
-                href={tile.href}
-                className="group relative flex items-center justify-between p-3.5 lg:p-4 rounded-2xl bg-white/85 hover:bg-white/95 backdrop-blur-md border border-white/90 shadow-[0_8px_20px_-4px_rgba(0,0,0,0.06)] hover:shadow-[0_12px_28px_-6px_rgba(49,91,219,0.15)] transition-all duration-300 hover:-translate-y-1"
+                onClick={() => setActiveModule(tile.module)}
+                className="group relative flex items-center justify-between p-3.5 lg:p-4 rounded-2xl bg-white/85 hover:bg-white/95 backdrop-blur-md border border-white/90 shadow-[0_8px_20px_-4px_rgba(0,0,0,0.06)] hover:shadow-[0_12px_28px_-6px_rgba(49,91,219,0.15)] transition-all duration-300 hover:-translate-y-1 text-left cursor-pointer"
               >
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-xl bg-[#EEF3FF] group-hover:bg-[#315BDB] text-[#315BDB] group-hover:text-white flex items-center justify-center transition-colors">
+                  <div className="w-10 h-10 rounded-xl bg-[#EEF3FF] group-hover:bg-[#315BDB] text-[#315BDB] group-hover:text-white flex items-center justify-center transition-colors shrink-0">
                     <Icon size={20} />
                   </div>
                   <div>
@@ -108,10 +112,10 @@ export const HeroSection: React.FC = () => {
                   </div>
                 </div>
 
-                <div className="w-6 h-6 rounded-full bg-[#F2F1ED] group-hover:bg-[#EEF3FF] flex items-center justify-center text-[#858B93] group-hover:text-[#315BDB] transition-all">
+                <div className="w-6 h-6 rounded-full bg-[#F2F1ED] group-hover:bg-[#EEF3FF] flex items-center justify-center text-[#858B93] group-hover:text-[#315BDB] transition-all shrink-0">
                   <ArrowRight size={13} className="transition-transform group-hover:translate-x-0.5" />
                 </div>
-              </a>
+              </button>
             );
           })}
         </div>
