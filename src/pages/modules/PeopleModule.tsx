@@ -16,6 +16,7 @@ import {
   SlidersHorizontal,
 } from "lucide-react";
 import { useAuth } from "../../context/AuthContext";
+import heroBg from "../../assets/images/hero-architecture-bg.png";
 import { EmployeeRecord } from "../../types";
 
 export const PeopleModule: React.FC = () => {
@@ -175,8 +176,18 @@ export const PeopleModule: React.FC = () => {
   return (
     <div className="space-y-6">
       {/* Top Banner */}
-      <div className="bg-white rounded-3xl p-6 lg:p-8 border border-[#E3E8EE] shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-4">
-        <div>
+      <div className="relative overflow-hidden bg-white rounded-3xl p-6 lg:p-8 border border-[#E3E8EE] shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-4 animate-fade-in-up">
+        {/* Background Architectural Layer */}
+        <div className="absolute inset-0 z-0 select-none pointer-events-none">
+          <img
+            src={heroBg}
+            alt="Inveon Campus Architecture"
+            className="w-full h-full object-cover object-right opacity-90"
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-white via-white/90 to-transparent w-full md:w-3/4" />
+        </div>
+
+        <div className="relative z-10">
           <div className="flex items-center gap-2 mb-1.5">
             <span className="text-[11px] font-extrabold tracking-widest text-[#858B93] uppercase">
               PEOPLE & TALENT OS
@@ -191,7 +202,7 @@ export const PeopleModule: React.FC = () => {
           </p>
         </div>
 
-        <div className="flex items-center gap-3">
+        <div className="relative z-10 flex items-center gap-3">
           <button
             onClick={() => setAddModalOpen(true)}
             className="px-4 py-2.5 rounded-xl bg-[#315BDB] hover:bg-[#244BB5] text-white text-xs font-bold flex items-center gap-2 transition-all shadow-xs cursor-pointer"

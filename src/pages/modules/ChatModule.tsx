@@ -11,6 +11,7 @@ import {
   CheckCheck,
 } from "lucide-react";
 import { useAuth } from "../../context/AuthContext";
+import heroBg from "../../assets/images/hero-architecture-bg.png";
 import { ChatMessage } from "../../types";
 
 export const ChatModule: React.FC = () => {
