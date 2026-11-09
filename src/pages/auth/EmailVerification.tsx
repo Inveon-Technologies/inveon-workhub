@@ -1,67 +1,122 @@
 import React, { useState } from "react";
-import { MailCheck, ArrowRight, RefreshCw } from "lucide-react";
-import { InveonLogo } from "../../components/common/InveonLogo";
+import { ArrowLeft, ArrowRight, Mail, ShieldCheck } from "lucide-react";
+import loginHero from "../../assets/images/login-left-hero.png";
 
 export const EmailVerification: React.FC<{ onNavigate?: (page: string) => void }> = ({ onNavigate }) => {
-  const [code, setCode] = useState(["", "", "", "", "", ""]);
+  const [code, setCode] = useState(["8", "4", "2", "7", "1", "6"]);
 
-  const handleChange = (index: number, val: string) => {
-    if (val.length <= 1) {
-      const next = [...code];
-      next[index] = val;
-      setCode(next);
-      if (val && index < 5) {
-        const nextInput = document.getElementById(`otp-${index + 1}`);
-        nextInput?.focus();
-      }
-    }
+  const handleDigitChange = (index: number, val: string) => {
+    if (val.length > 1) val = val.slice(-1);
+    const updated = [...code];
+    updated[index] = val;
+    setCode(updated);
   };
 
   return (
-    <div className="min-h-screen w-full bg-[#F2F1ED] flex items-center justify-center p-4 font-sans">
-      <div className="w-full max-w-md bg-white rounded-3xl p-8 border border-[#E3E8EE] shadow-xl text-center">
-        <div className="flex justify-center mb-6">
-          <InveonLogo size="md" />
+    <div className="min-h-screen w-full bg-[#F4F6F9] flex items-center justify-center p-4 sm:p-6 lg:p-10 font-sans selection:bg-[#2563EB] selection:text-white">
+      <div className="w-full max-w-6xl grid grid-cols-1 lg:grid-cols-12 items-center gap-6 lg:gap-12">
+        {/* Left: Master Architectural Hero Graphic */}
+        <div className="hidden lg:flex lg:col-span-7 flex-col justify-between rounded-[32px] overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.05)] border border-[#E2E8F0] bg-white h-[700px] relative select-none">
+          <img
+            src={loginHero}
+            alt="Inveon WorkHub Architectural Campus"
+            className="w-full h-full object-cover object-left-top"
+          />
         </div>
 
-        <div className="w-14 h-14 rounded-2xl bg-[#EEF3FF] text-[#315BDB] flex items-center justify-center mx-auto mb-4 border border-[#D0E0FF]">
-          <MailCheck size={28} />
-        </div>
+        {/* Right: Floating White Card */}
+        <div className="col-span-1 lg:col-span-5 flex justify-center">
+          <div className="w-full max-w-[460px] bg-white rounded-[32px] p-8 sm:p-10 shadow-[0_25px_60px_-15px_rgba(0,0,0,0.07)] border border-[#E2E8F0] text-center">
+            {/* Back link */}
+            <div className="text-left mb-4">
+              <button
+                type="button"
+                onClick={() => onNavigate && onNavigate("login")}
+                className="inline-flex items-center gap-2 text-xs font-semibold text-[#2563EB] hover:underline cursor-pointer"
+              >
+                <ArrowLeft size={14} />
+                <span>Back</span>
+              </button>
+            </div>
 
-        <h1 className="text-2xl font-black text-[#191C20] mb-1">Verify Your Email</h1>
-        <p className="text-xs text-[#858B93] mb-6">
-          We've sent a 6-digit confirmation code to your work email address.
-        </p>
+            {/* Icon Graphic */}
+            <div className="w-16 h-16 rounded-full bg-[#EEF2FF] text-[#2563EB] flex items-center justify-center mx-auto mb-4 border border-[#E0E7FF]">
+              <Mail size={28} />
+            </div>
 
-        {/* 6 Digit OTP inputs */}
-        <div className="flex items-center justify-center gap-2 mb-6">
-          {code.map((digit, idx) => (
-            <input
-              key={idx}
-              id={`otp-${idx}`}
-              type="text"
-              maxLength={1}
-              value={digit}
-              onChange={(e) => handleChange(idx, e.target.value)}
-              className="w-11 h-12 text-center text-lg font-black text-[#191C20] bg-[#FAFAFA] border border-[#D8D9D6] rounded-xl focus:border-[#315BDB] focus:outline-none focus:bg-white shadow-xs"
-            />
-          ))}
-        </div>
+            {/* Title & Subtitle */}
+            <div className="mb-6">
+              <h1 className="text-2xl sm:text-3xl font-serif font-bold text-[#191C20] tracking-tight mb-2">
+                Verify your email address
+              </h1>
+              <p className="text-xs sm:text-sm text-[#858B93] font-medium leading-relaxed">
+                We've sent a verification code to your work email address. Enter the code below to continue.
+              </p>
+            </div>
 
-        <button
-          onClick={() => onNavigate && onNavigate("choose-org")}
-          className="w-full py-3 px-4 rounded-xl bg-[#315BDB] hover:bg-[#244BB5] text-white text-xs font-bold flex items-center justify-center gap-2 transition-all shadow-md shadow-[#315BDB]/25 mb-4"
-        >
-          <span>Verify & Continue</span>
-          <ArrowRight size={15} />
-        </button>
+            {/* Masked Email Badge */}
+            <div className="mb-6 p-2 rounded-xl bg-[#F8FAFC] border border-[#E2E8F0] flex items-center justify-between text-xs px-3 text-[#475569]">
+              <div className="flex items-center gap-1.5 font-mono">
+                <Mail size={13} className="text-[#858B93]" />
+                <span>o*****r@inveon.com</span>
+              </div>
+              <button
+                type="button"
+                onClick={() => onNavigate && onNavigate("login")}
+                className="text-[#2563EB] font-bold hover:underline"
+              >
+                Change
+              </button>
+            </div>
 
-        <div className="flex items-center justify-center gap-1.5 text-xs text-[#858B93]">
-          <span>Didn't receive code?</span>
-          <button className="font-bold text-[#315BDB] hover:underline flex items-center gap-1">
-            <RefreshCw size={12} />
-            <span>Resend Code</span>
-          </button>
+            {/* 6 Digit Verification Code Inputs */}
+            <div className="mb-6">
+              <label className="block text-left text-xs font-bold text-[#191C20] mb-2.5">
+                Verification Code
+              </label>
+              <div className="grid grid-cols-6 gap-2">
+                {code.map((digit, idx) => (
+                  <input
+                    key={idx}
+                    type="text"
+                    maxLength={1}
+                    value={digit}
+                    onChange={(e) => handleDigitChange(idx, e.target.value)}
+                    className="w-full h-12 rounded-xl text-center font-bold text-lg text-[#191C20] border border-[#CBD5E1] bg-white focus:border-[#2563EB] focus:ring-3 focus:ring-[#2563EB]/15 outline-none transition-all"
+                  />
+                ))}
+              </div>
+            </div>
+
+            {/* Action Button */}
+            <button
+              type="button"
+              onClick={() => onNavigate && onNavigate("choose_org")}
+              className="w-full py-3 px-4 rounded-xl bg-[#2563EB] hover:bg-[#1D4ED8] text-white text-sm font-bold flex items-center justify-center gap-2 transition-all shadow-md shadow-[#2563EB]/25 hover:shadow-lg cursor-pointer"
+            >
+              <span>Verify Email</span>
+              <ArrowRight size={17} />
+            </button>
+
+            {/* Resend status */}
+            <div className="mt-4 text-xs text-[#858B93]">
+              Didn't receive the code?{" "}
+              <button type="button" className="font-bold text-[#2563EB] hover:underline">
+                Resend Code
+              </button>
+            </div>
+
+            {/* Footer Trust Markers */}
+            <div className="mt-8 pt-5 border-t border-[#F1F5F9] flex flex-col items-center gap-2">
+              <div className="flex items-center gap-2 text-[11px] text-[#64748B] font-medium text-center">
+                <ShieldCheck size={14} className="text-[#2563EB] shrink-0" />
+                <span>Having trouble? Contact your organisation administrator.</span>
+              </div>
+              <p className="text-[11px] text-[#94A3B8] font-medium">
+                Powered by <span className="font-bold text-[#191C20]">Inveon Technologies</span>
+              </p>
+            </div>
+          </div>
         </div>
       </div>
     </div>
