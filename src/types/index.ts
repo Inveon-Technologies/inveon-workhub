@@ -11,11 +11,20 @@ export type ActiveModule =
   | 'home'
   | 'people'
   | 'work'
+  | 'projects'
+  | 'attendance'
+  | 'leave'
+  | 'payroll'
+  | 'recruitment'
+  | 'performance'
+  | 'onboarding'
+  | 'documents'
   | 'growth'
   | 'calendar'
   | 'chat'
   | 'reports'
-  | 'settings';
+  | 'settings'
+  | 'org-admin';
 
 export interface UserProfile {
   id: string;
@@ -72,6 +81,8 @@ export interface ProjectItem {
   lead?: string;
   dueDate?: string;
   tasksCount?: number;
+  budget?: string;
+  membersCount?: number;
 }
 
 export interface EmployeeRecord {

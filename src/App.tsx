@@ -16,14 +16,23 @@ import { ManagerDashboard } from "./pages/dashboards/ManagerDashboard";
 import { RecruiterDashboard } from "./pages/dashboards/RecruiterDashboard";
 import { SuperAdminDashboard } from "./pages/dashboards/SuperAdminDashboard";
 
-// Full Module Pages
+// Full Module Pages (All 16 PRD Modules)
 import { PeopleModule } from "./pages/modules/PeopleModule";
 import { WorkModule } from "./pages/modules/WorkModule";
+import { ProjectsModule } from "./pages/modules/ProjectsModule";
+import { AttendanceModule } from "./pages/modules/AttendanceModule";
+import { LeaveModule } from "./pages/modules/LeaveModule";
+import { PayrollModule } from "./pages/modules/PayrollModule";
+import { RecruitmentModule } from "./pages/modules/RecruitmentModule";
+import { PerformanceModule } from "./pages/modules/PerformanceModule";
+import { OnboardingModule } from "./pages/modules/OnboardingModule";
+import { DocumentsModule } from "./pages/modules/DocumentsModule";
 import { GrowthModule } from "./pages/modules/GrowthModule";
 import { CalendarModule } from "./pages/modules/CalendarModule";
 import { ChatModule } from "./pages/modules/ChatModule";
 import { ReportsModule } from "./pages/modules/ReportsModule";
 import { SettingsModule } from "./pages/modules/SettingsModule";
+import { OrgAdminModule } from "./pages/modules/OrgAdminModule";
 
 // Global Overlays
 import { GlobalSearchModal } from "./components/overlays/GlobalSearchModal";
@@ -35,12 +44,27 @@ import { ToastContainer } from "./components/overlays/Toast";
 const MainContentRouter: React.FC = () => {
   const { user, activeModule } = useAuth();
 
-  // If activeModule is not 'home', route to the specific functional module
   switch (activeModule) {
     case "people":
       return <PeopleModule />;
     case "work":
       return <WorkModule />;
+    case "projects":
+      return <ProjectsModule />;
+    case "attendance":
+      return <AttendanceModule />;
+    case "leave":
+      return <LeaveModule />;
+    case "payroll":
+      return <PayrollModule />;
+    case "recruitment":
+      return <RecruitmentModule />;
+    case "performance":
+      return <PerformanceModule />;
+    case "onboarding":
+      return <OnboardingModule />;
+    case "documents":
+      return <DocumentsModule />;
     case "growth":
       return <GrowthModule />;
     case "calendar":
@@ -51,9 +75,10 @@ const MainContentRouter: React.FC = () => {
       return <ReportsModule />;
     case "settings":
       return <SettingsModule />;
+    case "org-admin":
+      return <OrgAdminModule />;
     case "home":
     default:
-      // In home view, display the role-authorized dashboard
       switch (user.role) {
         case "employee":
           return <EmployeeDashboard />;

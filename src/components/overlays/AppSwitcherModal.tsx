@@ -1,5 +1,24 @@
 import React from "react";
-import { Grid, Users, Layers, GraduationCap, Calendar, MessageSquare, BarChart3, Settings, ShieldCheck, X } from "lucide-react";
+import {
+  Grid,
+  Users,
+  Layers,
+  GraduationCap,
+  Calendar,
+  MessageSquare,
+  BarChart3,
+  Settings,
+  ShieldCheck,
+  X,
+  Clock,
+  CalendarCheck,
+  DollarSign,
+  Briefcase,
+  TrendingUp,
+  UserCheck,
+  FileText,
+  Lock,
+} from "lucide-react";
 import { useAuth } from "../../context/AuthContext";
 import { ActiveModule } from "../../types";
 
@@ -12,11 +31,20 @@ export const AppSwitcherModal: React.FC = () => {
     { id: "home", name: "Executive OS", desc: "Command center & presence", icon: Layers, color: "text-[#315BDB]", bg: "bg-[#EEF3FF]" },
     { id: "people", name: "People & HRMS", desc: "Workforce directory & org tree", icon: Users, color: "text-[#10B981]", bg: "bg-[#ECFDF5]" },
     { id: "work", name: "Work & Tasks", desc: "Kanban sprint boards & tracking", icon: Layers, color: "text-[#F59E0B]", bg: "bg-[#FFFBEB]" },
+    { id: "projects", name: "Project Portfolio", desc: "Roadmaps & milestones", icon: Layers, color: "text-[#315BDB]", bg: "bg-[#EEF3FF]" },
+    { id: "attendance", name: "Time & Attendance", desc: "Biometric shifts & geofence", icon: Clock, color: "text-[#10B981]", bg: "bg-[#ECFDF5]" },
+    { id: "leave", name: "Leave & Time-Off", desc: "Balances & approval queue", icon: CalendarCheck, color: "text-[#F07838]", bg: "bg-[#FEF3EC]" },
+    { id: "payroll", name: "Payroll & Slips", desc: "Compensation & tax vault", icon: DollarSign, color: "text-[#10B981]", bg: "bg-[#ECFDF5]" },
+    { id: "recruitment", name: "Recruitment & ATS", desc: "Hiring funnel & requisitions", icon: Briefcase, color: "text-[#315BDB]", bg: "bg-[#EEF3FF]" },
+    { id: "performance", name: "OKRs & Appraisals", desc: "360 reviews & scorecards", icon: TrendingUp, color: "text-[#8B5CF6]", bg: "bg-[#F5F3FF]" },
+    { id: "onboarding", name: "Onboarding Journey", desc: "Checklists & asset handover", icon: UserCheck, color: "text-[#06B6D4]", bg: "bg-[#ECFEFF]" },
+    { id: "documents", name: "Document Vault", desc: "Encrypted contracts & NDAs", icon: FileText, color: "text-[#475569]", bg: "bg-[#F1F5F9]" },
     { id: "growth", name: "Growth & LMS", desc: "Skill academy & certifications", icon: GraduationCap, color: "text-[#8B5CF6]", bg: "bg-[#F5F3FF]" },
     { id: "calendar", name: "Calendar & Meet", desc: "Events, rooms & 1-on-1 calls", icon: Calendar, color: "text-[#EC4899]", bg: "bg-[#FDF2F8]" },
-    { id: "chat", name: "Chat & Channels", desc: "Team discussion & direct messaging", icon: MessageSquare, color: "text-[#06B6D4]", bg: "bg-[#ECFEFF]" },
-    { id: "reports", name: "Reports & Insights", desc: "Analytics, attrition & velocity", icon: BarChart3, color: "text-[#F97316]", bg: "bg-[#FFF7ED]" },
-    { id: "settings", name: "Organisation Admin", desc: "Policies, roles & security", icon: Settings, color: "text-[#475569]", bg: "bg-[#F1F5F9]" },
+    { id: "chat", name: "Chat & Channels", desc: "Team discussion & messaging", icon: MessageSquare, color: "text-[#06B6D4]", bg: "bg-[#ECFEFF]" },
+    { id: "reports", name: "Reports & Insights", desc: "Analytics & export engine", icon: BarChart3, color: "text-[#F97316]", bg: "bg-[#FFF7ED]" },
+    { id: "settings", name: "Organisation Settings", desc: "Policies, shifts & 2FA", icon: Settings, color: "text-[#475569]", bg: "bg-[#F1F5F9]" },
+    { id: "org-admin", name: "Roles & Audit Logs", desc: "RBAC security & compliance", icon: Lock, color: "text-[#EF4444]", bg: "bg-[#FEF2F2]" },
   ];
 
   const handleSelect = (mod: ActiveModule) => {
@@ -27,7 +55,7 @@ export const AppSwitcherModal: React.FC = () => {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-xs animate-in fade-in duration-150">
       <div
-        className="w-full max-w-xl bg-white rounded-3xl p-6 sm:p-8 shadow-2xl border border-[#D8D9D6]"
+        className="w-full max-w-4xl bg-white rounded-3xl p-6 sm:p-8 shadow-2xl border border-[#D8D9D6] max-h-[90vh] overflow-y-auto"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex items-center justify-between pb-4 border-b border-[#F2F1ED] mb-6">
@@ -36,20 +64,20 @@ export const AppSwitcherModal: React.FC = () => {
               <Grid size={16} />
             </div>
             <div>
-              <h3 className="text-base font-extrabold text-[#191C20]">WorkHub App Switcher</h3>
-              <p className="text-[11px] text-[#858B93] font-medium">Quick switch between integrated business suites</p>
+              <h3 className="text-base font-extrabold text-[#191C20]">WorkHub App Switcher (All 16 Modules)</h3>
+              <p className="text-[11px] text-[#858B93] font-medium">Instantly launch any enterprise workforce module</p>
             </div>
           </div>
 
           <button
             onClick={() => setAppSwitcherOpen(false)}
-            className="p-1 rounded-xl text-[#858B93] hover:text-[#191C20] hover:bg-[#F2F1ED] transition-colors"
+            className="p-1 rounded-xl text-[#858B93] hover:text-[#191C20] hover:bg-[#F2F1ED] transition-colors cursor-pointer"
           >
             <X size={18} />
           </button>
         </div>
 
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
           {apps.map((app) => {
             const Icon = app.icon;
             return (
@@ -58,7 +86,7 @@ export const AppSwitcherModal: React.FC = () => {
                 onClick={() => handleSelect(app.id)}
                 className="p-3.5 rounded-2xl border border-[#EBEBEB] hover:border-[#315BDB] bg-[#FAFAFA] hover:bg-white text-left transition-all hover:-translate-y-0.5 group cursor-pointer flex flex-col justify-between min-h-[110px]"
               >
-                <div className={`w-9 h-9 rounded-xl ${app.bg} ${app.color} flex items-center justify-center mb-2`}>
+                <div className={`w-9 h-9 rounded-xl ${app.bg} ${app.color} flex items-center justify-center mb-2 shrink-0`}>
                   <Icon size={18} />
                 </div>
                 <div>

@@ -1,5 +1,21 @@
 import React, { useState, useEffect } from "react";
-import { Search, X, Users, Layers, GraduationCap, Calendar, FileText, ArrowRight } from "lucide-react";
+import {
+  Search,
+  X,
+  Users,
+  Layers,
+  GraduationCap,
+  Calendar,
+  FileText,
+  ArrowRight,
+  Clock,
+  CalendarCheck,
+  DollarSign,
+  Briefcase,
+  TrendingUp,
+  UserCheck,
+  Lock,
+} from "lucide-react";
 import { useAuth } from "../../context/AuthContext";
 import { ActiveModule } from "../../types";
 
@@ -26,10 +42,18 @@ export const GlobalSearchModal: React.FC = () => {
   const searchableItems = [
     { title: "Siddharth Rao", type: "Employee", sub: "Senior Frontend Engineer • Engineering", icon: Users, module: "people" as ActiveModule },
     { title: "Rutuja Shinde", type: "Employee", sub: "Lead UI/UX Designer • Design", icon: Users, module: "people" as ActiveModule },
-    { title: "WorkHub v2.0 - Product Enhancements", type: "Project", sub: "Core UI/UX, Navigation Rail & Dashboards", icon: Layers, module: "work" as ActiveModule },
+    { title: "WorkHub v2.0 - Product Enhancements", type: "Project", sub: "Core UI/UX, Navigation Rail & Dashboards", icon: Layers, module: "projects" as ActiveModule },
     { title: "Review UI design and share feedback", type: "Task", sub: "Due Today • Priority High", icon: FileText, module: "work" as ActiveModule },
+    { title: "October 2026 Salary Slip & Tax Sheet", type: "Payroll", sub: "Gross: ₹1,45,000 • Net: ₹1,28,450", icon: DollarSign, module: "payroll" as ActiveModule },
+    { title: "Punch In & Shift Regularization", type: "Attendance", sub: "09:30 AM - 06:30 PM Shift", icon: Clock, module: "attendance" as ActiveModule },
+    { title: "Casual & Sick Leave Balances", type: "Leaves", sub: "8 CL & 7 SL Available", icon: CalendarCheck, module: "leave" as ActiveModule },
+    { title: "Senior Full-Stack Engineer Requisition", type: "Recruitment", sub: "ATS Funnel • 42 Applicants", icon: Briefcase, module: "recruitment" as ActiveModule },
+    { title: "Q3 2026 OKR Performance Scorecard", type: "Performance", sub: "Rating: 4.8 / 5.0 (Top Tier)", icon: TrendingUp, module: "performance" as ActiveModule },
+    { title: "Onboarding Checklist & IT Assets", type: "Onboarding", sub: "Pre-boarding & Orientation", icon: UserCheck, module: "onboarding" as ActiveModule },
+    { title: "Employment Contract & E-Signed NDA", type: "Document Vault", sub: "256-bit Encrypted PDF Archive", icon: FileText, module: "documents" as ActiveModule },
     { title: "Inveon Design System Masterclass", type: "LMS Course", sub: "12 Lessons • Design Systems in Tailwind", icon: GraduationCap, module: "growth" as ActiveModule },
     { title: "Product Sync - Engineering & Leadership", type: "Meeting", sub: "Today at 10:00 AM • Conference Room A", icon: Calendar, module: "calendar" as ActiveModule },
+    { title: "Role-Based Access Control (RBAC)", type: "Security", sub: "Permissions & Audit Log Trail", icon: Lock, module: "org-admin" as ActiveModule },
     { title: "New Remote Work & Hybrid Policy", type: "Policy", sub: "Approved by HR • Applicable to all teams", icon: FileText, module: "settings" as ActiveModule },
   ];
 
@@ -61,12 +85,12 @@ export const GlobalSearchModal: React.FC = () => {
             type="text"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            placeholder="Type to search people, tasks, courses, meetings or policies..."
+            placeholder="Type to search any of the 16 WorkHub modules, employees, tasks, slips or policies..."
             className="w-full text-sm font-semibold text-[#191C20] placeholder-[#858B93] focus:outline-none"
           />
           <button
             onClick={() => setSearchOpen(false)}
-            className="p-1 rounded-lg text-[#858B93] hover:text-[#191C20] hover:bg-[#F2F1ED] transition-colors"
+            className="p-1 rounded-lg text-[#858B93] hover:text-[#191C20] hover:bg-[#F2F1ED] transition-colors cursor-pointer"
           >
             <X size={18} />
           </button>
